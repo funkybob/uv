@@ -2730,13 +2730,13 @@ fn relative_and_absolute_paths() -> Result<()> {
 
         [tool.uv.sources]
         b = {{ path = "b" }}
-        c = {{ path = "{}" }}
+        c = {{ path = {} }}
 
         [build-system]
         requires = ["hatchling"]
         build-backend = "hatchling.build"
         "#,
-        context.temp_dir.join("c").display()
+        &toml::Value::String(context.temp_dir.join("c").display().to_string()).to_string()
     })?;
     context.temp_dir.child("a/__init__.py").touch()?;
     context
@@ -2749,7 +2749,7 @@ fn relative_and_absolute_paths() -> Result<()> {
         dependencies = []
         requires-python = ">=3.11,<3.13"
         license = {text = "MIT"}
-        
+
         [build-system]
         requires = ["hatchling"]
         build-backend = "hatchling.build"
@@ -2765,7 +2765,7 @@ fn relative_and_absolute_paths() -> Result<()> {
         dependencies = []
         requires-python = ">=3.11,<3.13"
         license = {text = "MIT"}
-        
+
         [build-system]
         requires = ["hatchling"]
         build-backend = "hatchling.build"
